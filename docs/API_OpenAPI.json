@@ -1,0 +1,420 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SCDMS - Simplified Coding Data Managment Service",
+    "description": "This is the Simplified Coding Data Managment Service API.",
+    "contact": {
+      "email": "main@simplifiecoding.org"
+    },
+    "license": {
+      "name": "GPL v3.0",
+      "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://scdms-server.simplifiedcoding.org"
+    }
+  ],
+  "tags": [
+    {
+      "name": "certs",
+      "description": "Everything related to certidicates"
+    }
+  ],
+  "paths": {
+    "/certs": {
+      "get": {
+        "operationId": "get_certs",
+        "summary": "Route check",
+        "description": "Checks if the /certs/ routes work",
+        "tags": [
+          "certs"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "SCDMS - Certificates API"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/certs/generate": {
+      "post": {
+        "operationId": "post_certs_generate",
+        "summary": "Generates a certificate",
+        "description": "Generates a certificate and sends it for verification",
+        "tags": [
+          "certs"
+        ],
+        "security": [
+          {
+            "api_key": [
+              "api_key"
+            ]
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullname": {
+                    "type": "string",
+                    "example": "Jeff Jefferson"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "jeff@simplifiedcoding.org"
+                  },
+                  "course": {
+                    "type": "string",
+                    "example": "python"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "cert": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Certificate Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "conflict": {
+                      "type": "string",
+                      "example": "certificate"
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "A certificate already exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Bad Input Data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "Some fields were not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/certs/generate/notify": {
+      "post": {
+        "operationId": "post_certs_generate_notify",
+        "summary": "Notifies of a certificate generation",
+        "description": "Notifies the receipient of a certificate generation",
+        "tags": [
+          "certs"
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullname": {
+                    "type": "string",
+                    "example": "Jeff Jefferson"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "jeff@simplifiedcoding.org"
+                  },
+                  "course": {
+                    "type": "string",
+                    "example": "python"
+                  },
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Bad Input Data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "Some fields were not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/certs/:id": {
+      "get": {
+        "operationId": "get_certs_id",
+        "summary": "Gets a certificate status",
+        "description": "Looks up the certificate and returns it sstatus",
+        "tags": [
+          "certs"
+        ],
+        "responses": {
+          "200": {
+            "description": "Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "certID": {
+                      "type": "string"
+                    },
+                    "certStatus": {
+                      "type": "string"
+                    },
+                    "certDeactivationReason": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_certs_id",
+        "summary": "Revokes a certificate",
+        "description": "Looks up the certificate and revokes it",
+        "tags": [
+          "certs"
+        ],
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "emailID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "Certificate with ID: <ID> not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_certs_id",
+        "summary": "Reinstate a certificate",
+        "description": "Looks up the certificate and reinstate it",
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "tags": [
+          "certs"
+        ],
+        "responses": {
+          "200": {
+            "description": "Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "emailID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "Certificate with ID: <ID> not found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+    }
+  }
+}
