@@ -20,6 +20,6 @@ export default async (data: string): Promise<AES_Crypto> => {
     IV: iv.toString("base64"),
     TAG: cipher.getAuthTag().toString("base64"),
     DATA: encrypted,
-    HASH: hash(encrypted),
+    HASH: hash(data),
   };
 };

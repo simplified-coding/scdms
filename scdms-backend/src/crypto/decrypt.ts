@@ -16,8 +16,6 @@ export default async (data: AES_Crypto): Promise<string | void> => {
   let decrypted = decipher.update(data.DATA, "base64", "utf-8");
   decrypted += decipher.final("utf-8");
 
-  console.log(decrypted);
-
   if (hash(decrypted) !== data.HASH) return;
 
   return decrypted;

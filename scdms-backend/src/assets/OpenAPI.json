@@ -10,7 +10,7 @@
       "name": "GPL v3.0",
       "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
     },
-    "version": "1.0.0"
+    "version": "0.0.0"
   },
   "servers": [
     {
@@ -21,17 +21,79 @@
     {
       "name": "certs",
       "description": "Everything related to certidicates"
+    },
+    {
+      "name": "oauth",
+      "description": "OAuth related routes"
     }
   ],
   "paths": {
+    "/oauth/discord/request": {
+      "get": {
+        "operationId": "get_oauth_discord_request",
+        "summary": "Get a discord OAuth redirect",
+        "description": "Redirects to discord OAuth authorize URL.",
+        "tags": ["oauth"]
+      }
+    },
+    "/oauth/discord/finalize": {
+      "get": {
+        "operationId": "get_oauth_discord_finalize",
+        "summary": "Finalize a discord OAuth request & get access token",
+        "description": "Redirects to discord OAuth authorize URL.",
+        "tags": ["oauth"],
+        "responses": {
+          "200": {
+            "description": "Account authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "state": {
+                      "type": "string"
+                    },
+                    "jwt": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found / Incorrent Params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "msg": {
+                      "type": "string",
+                      "example": "The state was invalid or the IP address doesn't match with the original one"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/certs": {
       "get": {
         "operationId": "get_certs",
         "summary": "Route check",
         "description": "Checks if the /certs/ routes work",
-        "tags": [
-          "certs"
-        ],
+        "tags": ["certs"],
         "responses": {
           "200": {
             "description": "Success",
@@ -61,14 +123,10 @@
         "operationId": "post_certs_generate",
         "summary": "Generates a certificate",
         "description": "Generates a certificate and sends it for verification",
-        "tags": [
-          "certs"
-        ],
+        "tags": ["certs"],
         "security": [
           {
-            "api_key": [
-              "api_key"
-            ]
+            "jwt": []
           }
         ],
         "requestBody": {
@@ -169,12 +227,10 @@
         "operationId": "post_certs_generate_notify",
         "summary": "Notifies of a certificate generation",
         "description": "Notifies the receipient of a certificate generation",
-        "tags": [
-          "certs"
-        ],
+        "tags": ["certs"],
         "security": [
           {
-            "api_key": []
+            "jwt": []
           }
         ],
         "requestBody": {
@@ -251,9 +307,7 @@
         "operationId": "get_certs_id",
         "summary": "Gets a certificate status",
         "description": "Looks up the certificate and returns it sstatus",
-        "tags": [
-          "certs"
-        ],
+        "tags": ["certs"],
         "responses": {
           "200": {
             "description": "Found",
@@ -302,12 +356,10 @@
         "operationId": "delete_certs_id",
         "summary": "Revokes a certificate",
         "description": "Looks up the certificate and revokes it",
-        "tags": [
-          "certs"
-        ],
+        "tags": ["certs"],
         "security": [
           {
-            "api_key": []
+            "jwt": []
           }
         ],
         "responses": {
@@ -358,12 +410,10 @@
         "description": "Looks up the certificate and reinstate it",
         "security": [
           {
-            "api_key": []
+            "jwt": []
           }
         ],
-        "tags": [
-          "certs"
-        ],
+        "tags": ["certs"],
         "responses": {
           "200": {
             "description": "Found",
@@ -410,10 +460,11 @@
   },
   "components": {
     "securitySchemes": {
-      "api_key": {
-        "type": "apiKey",
-        "name": "api_key",
-        "in": "header"
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "User JWT"
       }
     }
   }
