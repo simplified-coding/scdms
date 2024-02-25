@@ -36,7 +36,6 @@ export const getUser = async (id: string): Promise<User | void> => {
   const user = await decryptRow("[SCDMS]_Users", id);
   if (!user) return;
 
-  console.log(user);
   user.DATA = JSON.parse(user.DATA);
   (user.DATA as User).ADMIN = Boolean(user.RECORD.ADMIN);
   return user.DATA;

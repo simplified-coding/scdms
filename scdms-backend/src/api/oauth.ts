@@ -2,11 +2,11 @@ import express, { Request, Response } from "express";
 import cache from "node-cache";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import qs from "qs";
 import { getUser, insertUser, signUserJWT } from "../users";
 
 const router = express.Router();
-const redirect = "http://127.0.0.1:3000/oauth/discord/finalize";
+const redirect =
+  "http://scdms-server.simplifiedcoding.org/oauth/discord/finalize";
 const states = new cache({ stdTTL: 60 * 12, checkperiod: 90 });
 
 router.get("/discord/request", (req: Request, res: Response) => {

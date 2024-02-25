@@ -63,7 +63,7 @@ export const generateCertificate = async (fullname, course, id = undefined) => {
   });
 
   // Sign PDF
-  pdfBuffer = new P12Signer(
+  pdfBuffer = await new P12Signer(
     fs.readFileSync("./assets/" + process.env.CRYPTO_P12_KEYFILE),
     { passphrase: process.env.CRYPTO_P12_SECRET },
   ).sign(pdfBuffer);
