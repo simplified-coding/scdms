@@ -95,6 +95,12 @@ If the Simplified Coding Team suspects you cheated, or did any other unauthorize
 You can manually check the certificate validity by following this link: https://scdms.simplifiedcoding.org/certs/valid/${id}
 
 Have any questions? Lost your certificate ID? Was your certificate invalidated? Email us at main@simplifiedcoding.org`,
+      [
+        {
+          filename: "certificate.pdf",
+          content: (await generateCertificate({ ...req.body })).cert,
+        },
+      ],
     );
 
     await sendNotification(

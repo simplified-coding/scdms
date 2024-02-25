@@ -12,11 +12,13 @@ export const sendEmail = async (
   email: string,
   subject: string,
   body: string,
+  attachements?: any,
 ) => {
   return await mailer.sendMail({
     from: "noreply@simplifiedcoding.org",
     to: email,
     subject: `[SCDMS] ${subject}`,
     text: body,
+    attachments: attachements,
   });
 };

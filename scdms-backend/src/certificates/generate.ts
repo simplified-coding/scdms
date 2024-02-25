@@ -66,10 +66,10 @@ export const generateCertificate = async (cert: CertificateMetadata) => {
   });
 
   // Sign PDF
-  pdfBuffer = await new P12Signer(
-    fs.readFileSync("./src/assets/" + process.env.CRYPTO_P12_KEYFILE),
-    { passphrase: process.env.CRYPTO_P12_SECRET },
-  ).sign(pdfBuffer);
+  // pdfBuffer = await new P12Signer(
+  //   fs.readFileSync("./src/assets/" + process.env.CRYPTO_P12_KEYFILE),
+  //   { passphrase: process.env.CRYPTO_P12_SECRET },
+  // ).sign(pdfBuffer);
 
   return {
     cert: pdfBuffer,
