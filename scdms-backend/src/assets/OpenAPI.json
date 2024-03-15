@@ -400,6 +400,20 @@
             "jwt": []
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "deactivationReason"],
+                "properties": {
+                  "email": { "type": "string" },
+                  "deactivationReason": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Found",
@@ -452,6 +466,19 @@
           }
         ],
         "tags": ["certs"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Found",

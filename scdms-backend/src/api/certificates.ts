@@ -6,7 +6,10 @@ import { generateCertificate } from "../certificates/generate";
 import {
   CertificateMetadata,
   certExists,
+  certFetch,
   certInsert,
+  certLookup,
+  certStatus,
 } from "../certificates/db";
 import { sendNotification } from "../notify";
 import { sendEmail } from "../email";
@@ -111,5 +114,80 @@ Have any questions? Lost your certificate ID? Was your certificate invalidated? 
     res.status(200).json({ status: true, id: mail.messageId });
   },
 );
+
+router.get("/:id", async (req: Request, res: Response) => {
+  const cert = await certFetch(req.params.id);
+
+  res.status(200).json({
+    status: true,
+    certID: cert.fields.ID,
+    certStatus: cert.fields.Status,
+    certDeactivationReason: cert.fields.DeactivationReason || "N/A",
+  });
+});
+
+router.post(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req: Request, res: Response) => {
+    if (!req.body.email) {
+      return res
+        .status(404)
+        .json({ status: false, msg: "No email was provided" });
+    }
+
+    const cert = await certFetch(req.params.id);
+    await certStatus(cert.id, "Active", "N/A");
+
+    await sendNotification(
+      "Certificate Reinstancion Notified",
+      `A certificate reinstancion notification with ID: ${req.params.id} was sent!`,
+      req.user.USERNAME,
+    );
+    const mail = await sendEmail(
+      req.body.email,
+      `Simplified Coding Certificate Reinstation`,
+      `
+Hello, Your Simplified Coding certificate with ID: ${req.params.id} got reinstanted!`,
+    );
+
+    res.status(200).json({ status: true, emailID: mail.messageId });
+  },
+);
+
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req: Request, res: Response) => {
+    if (!req.body.email || !req.body.deactivationReason) {
+      return res.status(404).json({
+        status: false,
+        msg: "No email / deactivationReason was provided",
+      });
+    }
+
+    const cert = await certFetch(req.params.id);
+    await certStatus(cert.id, "Disabled", req.body.deactivationReason);
+
+    await sendNotification(
+      "Certificate Revoke Notified",
+      `A certificate revokation notification with ID: ${req.params.id} was sent!`,
+      req.user.USERNAME,
+    );
+    const mail = await sendEmail(
+      req.body.email,
+      `Simplified Coding Certificate Revokation`,
+      `
+Hello, Your Simplified Coding certificate with ID: ${req.params.id} was revoked!`,
+    );
+
+    res.status(200).json({ status: true, emailID: mail.messageId });
+  },
+);
+
+router.get("/user/:fullname", async (req: Request, res: Response) => {
+  const certs = await certLookup(req.params.fullname);
+  res.status(200).json(certs.map((cert: any) => cert.fields));
+});
 
 export default router;
