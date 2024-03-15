@@ -80,24 +80,22 @@ router.post(
 
     const mail = await sendEmail(
       email,
-      `Simplified Coding Certificate Generation`,
+      `Πιστοποιητικά Simplified Coding - Δημιουργία`,
       `
-Hello!
-A Simplified Coding Certificate was generated for you!
-Below are your certificate details, and the certificate PDF.
-We urge you to not lose the ID as it will be used for most actions.
+Αγαπητέ/ή ${fullname}
 
-~ DETAILS
-ID: ${id}
-FULLNAME: ${fullname}
-COURSE: ${course}
+Με μεγάλη χαρά σας ενημερώνουμε ότι η περάσατε την εξέταση πιστοποιητικού [COURSE]. Επισυνάπτουμε σε αυτό το mail το ψηφιακά υπογεγραμμένο πιστοποιητικό σας σε μορφή PDF. Επιπλέον, ακολουθούν βασικές πληροφορίες για το πιστοποιητικό. Παρακαλούμε να τις κρατήσετε, διότι είναι  πολύ σημαντικές, ειδικά ο κωδικός πιστοποιητικού.
 
-~ Validation
-Your certificate shall be considered valid from the moment it was created.
-If the Simplified Coding Team suspects you cheated, or did any other unauthorized action, they have every right to invalidate/reinstate it.
-You can manually check the certificate validity by following this link: https://scdms.simplifiedcoding.org/certs/valid/${id}
+Κωδικός πιστοποιητικού: ${id}
+Ονοματεπώνυμο: ${fullname}
+Μάθημα: ${course}
 
-Have any questions? Lost your certificate ID? Was your certificate invalidated? Email us at main@simplifiedcoding.org`,
+Μπορείτε να επιβεβαιώσετε την εγκυρότητα του στην ακόλουθη ιστοσελίδα: https://scdms.simplifiedcoding.org/certs/valid/${id}
+
+Φυσικά, αν η ομάδα του Simplified Coding έχει λόγο να υποπτευθεί ότι δεν ακολουθήθηκαν οι κανονισμοί της εξέτασης έχει το δικαίωμα να το ανακαλέσει προσωρινά ή και μόνιμα.
+
+Με εκτίμηση,
+Η ομάδα του Simplified Coding <main@simplifiedcoding.org>`,
       [
         {
           filename: "certificate.pdf",
@@ -146,9 +144,14 @@ router.post(
     );
     const mail = await sendEmail(
       req.body.email,
-      `Simplified Coding Certificate Reinstation`,
+      `Πιστοποιητικά Simplified Coding - Αποκατάσταση`,
       `
-Hello, Your Simplified Coding certificate with ID: ${req.params.id} got reinstanted!`,
+Προς κάθε ενδιαφερόμενο,
+Θα θέλαμε να σας ενημερώσουμε με μεγάλη χαρά ότι το πιστοποιητικό σας με κωδικό: ${req.params.id} αποκαταστάθηκε!
+
+Με εκτίμηση,
+Η ομάδα του Simplified Coding <main@simplifiedcoding.org>
+`,
     );
 
     res.status(200).json({ status: true, emailID: mail.messageId });
@@ -176,9 +179,16 @@ router.delete(
     );
     const mail = await sendEmail(
       req.body.email,
-      `Simplified Coding Certificate Revokation`,
+      `Πιστοποιητικά Simplified Coding - Ανάκληση`,
       `
-Hello, Your Simplified Coding certificate with ID: ${req.params.id} was revoked!`,
+Προς κάθε ενδιαφερόμενο,
+Θα θέλαμε να σας ενημερώσουμε με μεγάλη λύπη ότι το πιστοποιητικό σας με κωδικό: ${req.params.id} ανακλήθηκε!
+
+Η αιτία: ${req.body.deactivationReason}
+
+Με εκτίμηση,
+Η ομάδα του Simplified Coding <main@simplifiedcoding.org>
+`,
     );
 
     res.status(200).json({ status: true, emailID: mail.messageId });
