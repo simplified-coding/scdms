@@ -77,6 +77,7 @@ router.get("/discord/finalize", async (req: Request, res: Response) => {
   res.status(200).json({
     status: true,
     state: String(req.query.state),
+    admin: user.ADMIN,
     jwt: signUserJWT(user),
   });
 });
