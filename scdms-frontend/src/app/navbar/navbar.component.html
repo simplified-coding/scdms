@@ -1,0 +1,29 @@
+<nav>
+  <mat-toolbar color="primary">
+    <img src="../../assets/logo.svg" width="48" />
+    <span class="margin">Simplified Coding DMS</span>
+    <div class="nav-links">
+      <a mat-button routerLink="/" class="link"
+        ><mat-icon>home</mat-icon> Home</a
+      >
+      <a mat-button routerLink="/certs" class="link"
+        ><mat-icon>approval</mat-icon> Certs</a
+      >
+      <a mat-button routerLink="/links" class="link"
+        ><mat-icon>link</mat-icon> Links</a
+      >
+    </div>
+
+    <div class="margin">
+      @if (this.authService.hasToken()) {
+      <a mat-button routerLink="/auth/logout" class="link" color="warn"
+        ><mat-icon>logout</mat-icon> Logout</a
+      >
+      } @else {
+      <a mat-button routerLink="/auth/login" class="link"
+        ><mat-icon>login</mat-icon> Login</a
+      >
+      }
+    </div>
+  </mat-toolbar>
+</nav>
