@@ -13,5 +13,5 @@ import { AuthService } from '../auth.service';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  authService: AuthService = inject(AuthService);
+  protected authService: AuthService = inject(AuthService);
 }

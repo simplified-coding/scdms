@@ -1,19 +1,16 @@
-.policy {
-  display: flex;
-  flex: 1;
-  align-items: center;
-
-  a {
-    margin-left: 0.25rem;
-  }
-}
-
-.policy-icon {
-  width: 32;
-  margin-right: 0.5rem;
-}
-
-.text {
+.content {
   margin: 2rem 2rem;
-  max-width: 65%;
+  flex: 1 1 auto;
+  height: 85%;
+}
+
+.navbar {
+  flex: 0 1 auto;
+  min-height: 20%;
+}
+
+main {
+  display: flexbox;
+  flex-direction: column;
+  height: 100%;
 }

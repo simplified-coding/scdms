@@ -1,25 +1,6 @@
 <main>
-  <app-navbar></app-navbar>
-  <div class="text">
-    <h1>
-      Καλώς ήρθατε στο
-      <strong>Simplified Coding Data Management System</strong>!
-    </h1>
-    <p>
-      Η Υπηρεσία Διαχείρισης Δεδομένων Simplified Coding ή SCDMS είναι η
-      κεντρική υπηρεσία της Simplified Coding που διαχειρίζεται όλες τις
-      διεργασίες σχετικά με τα δεδομένα σας. Οι υπηρεσίες που προσφέρονται
-      κυμαίνονται από υπηρεσίες μόνο για διαχειριστές, όπως η διαχείριση
-      πιστοποιητικών, έως υπηρεσίες για κανονική χρήση, όπως η οριστική διαγραφή
-      δεδομένων.
-    </p>
-    <p class="policy">
-      <mat-icon class="policy-icon">policy</mat-icon> Μπορείτε να διαβάσετε την
-      πολιτική δεδομένων τού Simplified Coding
-      <a
-        href="https://docs.google.com/document/d/1sUvDrstlkLtJh1pmWQdLxugtA94KtpN_CFcRMVSsXog/edit?usp=sharing"
-        ><strong>εδώ</strong>!</a
-      >
-    </p>
-  </div>
+  <app-navbar class="navbar"></app-navbar>
+  <section class="content">
+    <router-outlet></router-outlet>
+  </section>
 </main>
