@@ -7,7 +7,8 @@ import { ApiDiscordFinalize, Api, ApiDiscordClientId } from './api';
   providedIn: 'root',
 })
 export class ApiService {
-  protected readonly serverURL: string = 'http://localhost:3000';
+  protected readonly serverURL: string =
+    'https://scdms-server.simplifiedcoding.org';
 
   private http: HttpClient = inject(HttpClient);
   constructor() {}

@@ -12,11 +12,16 @@
       <a mat-button routerLink="/links" class="link"
         ><mat-icon>link</mat-icon> Links</a
       >
+      @if (this.authService.hasAdmin()) {
+      <a mat-button routerLink="/admin" class="link"
+        ><mat-icon>admin_panel_settings</mat-icon> Admin</a
+      >
+      }
     </div>
 
     <div class="margin">
       @if (this.authService.hasToken()) {
-      <a mat-button routerLink="/auth/logout" class="link" color="warn"
+      <a mat-button href="/auth/login?logout" class="link" color="warn"
         ><mat-icon>logout</mat-icon> Logout</a
       >
       } @else {

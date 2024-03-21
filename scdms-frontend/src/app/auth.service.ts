@@ -24,6 +24,11 @@ export class AuthService {
     this.redirect = encodeURIComponent(
       `${window.location.protocol}//${window.location.host}/auth/login/finalize`
     );
+
+    if (this.cookieService.check('token')) {
+      const data: Token = JSON.parse(atob(this.cookieService.get('token')));
+      this.token = data;
+    }
   }
 
   getToken(): Token | undefined {
@@ -34,8 +39,18 @@ export class AuthService {
     return this.token !== undefined;
   }
 
+  hasAdmin(): boolean {
+    return this.token?.admin || false;
+  }
+
   setState(state: string) {
     this.state = state;
+  }
+
+  clean() {
+    this.state = undefined;
+    this.token = undefined;
+    this.cookieService.delete('token', '/', undefined, true, 'Strict');
   }
 
   discordRedirectURL(): string {
@@ -54,9 +69,9 @@ export class AuthService {
 
     this.cookieService.set(
       'token',
-      JSON.stringify(this.token),
-      undefined,
-      undefined,
+      btoa(JSON.stringify(this.token)),
+      60,
+      '/',
       undefined,
       true,
       'Strict'
