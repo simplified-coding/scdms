@@ -10,6 +10,7 @@ import rCertificates from "./api/certificates";
 import rOauth from "./api/oauth";
 import swaggerDocument from "./assets/OpenAPI.json";
 import pkg from "../package.json";
+import { sendNotification } from "./notify";
 
 const app = express();
 app.use(bodyParser.json());
@@ -42,5 +43,6 @@ app.get("/", (_, res) => {
 });
 
 app.listen(process.env.PORT || 3000, () => {
+  sendNotification("Server Runtime", `A SCDMS Service was started`);
   console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });

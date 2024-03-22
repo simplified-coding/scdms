@@ -364,11 +364,49 @@
         }
       }
     },
+    "/certs/user/:fullname": {
+      "get": {
+        "operationId": "get_certs_user_fullname",
+        "summary": "Get's all certificates of a user",
+        "description": "Looks up all certificates of a user with the fullname :fullname",
+        "tags": ["certs"],
+        "security": [{ "jwt": [] }],
+        "responses": {
+          "200": {
+            "description": "Lookup Results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "fullname",
+                      "course",
+                      "status",
+                      "deactivationReason"
+                    ],
+                    "properties": {
+                      "id": { "type": "string" },
+                      "fullname": { "type": "string" },
+                      "course": { "type": "string" },
+                      "status": { "type": "string" },
+                      "deactivationReason": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/certs/:id": {
       "get": {
         "operationId": "get_certs_id",
         "summary": "Gets a certificate status",
-        "description": "Looks up the certificate and returns it sstatus",
+        "description": "Looks up the certificate and returns it status",
         "tags": ["certs"],
         "responses": {
           "200": {
@@ -424,6 +462,20 @@
             "jwt": []
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "deactivationReason"],
+                "properties": {
+                  "email": { "type": "string" },
+                  "deactivationReason": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Found",
@@ -476,6 +528,19 @@
           }
         ],
         "tags": ["certs"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Found",
