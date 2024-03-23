@@ -31,7 +31,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req: Request, res: Response) => {
     const { fullname, email, course } = req.body;
-    if (req.user.ADMIN && !fullname && !email && !course) {
+    if (!req.user.ADMIN || !fullname || !email || !course) {
       return res.status(422).json({
         status: false,
         msg: "Some fields were not found!",
@@ -51,7 +51,7 @@ router.post(
       id: v4(),
     };
     const cert = await generateCertificate(meta);
-    await certInsert(meta);
+    await certInsert(meta, email);
 
     await sendNotification(
       `Certificate Generation`,
@@ -71,7 +71,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req: Request, res: Response) => {
     const { id, fullname, course, email } = req.body;
-    if (req.user.ADMIN && !fullname && !email && !course && !email) {
+    if (!req.user.ADMIN || !fullname || !email || !course || !email) {
       return res.status(422).json({
         status: false,
         msg: "Some fields were not found!",
@@ -131,7 +131,7 @@ router.post(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   async (req: Request, res: Response) => {
-    if (!req.body.email) {
+    if (!req.body.email || !req.user.ADMIN) {
       return res
         .status(404)
         .json({ status: false, msg: "No email was provided" });
@@ -165,7 +165,7 @@ router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   async (req: Request, res: Response) => {
-    if (!req.body.email || !req.body.deactivationReason) {
+    if (!req.body.email || !req.body.deactivationReason || !req.user.ADMIN) {
       return res.status(404).json({
         status: false,
         msg: "No email / deactivationReason was provided",
@@ -198,9 +198,16 @@ router.delete(
   },
 );
 
-router.get("/user/:fullname", async (req: Request, res: Response) => {
-  const certs = await certLookup(req.params.fullname);
-  res.status(200).json(certs.map((cert: any) => cert.fields));
-});
+router.get(
+  "/user/:fullname",
+  passport.authenticate("jwt", { session: false }),
+  async (req: Request, res: Response) => {
+    if (!req.user.ADMIN)
+      return res.status(403).json({ status: false, msg: "Unauthorized" });
+
+    const certs = await certLookup(req.params.fullname);
+    res.status(200).json(certs.map((cert: any) => cert.fields));
+  },
+);
 
 export default router;

@@ -62,7 +62,7 @@ export const certStatus = async (
 export const certLookup = async (fullname: string) => {
   const query = await connect().get("[SCDMS]_Certs", {
     params: {
-      filterByFormula: `Fullname = '${hash(fullname)}'`,
+      filterByFormula: `FIND('${fullname}', Fullname)`,
       fields: [
         "ID",
         "Status",
@@ -70,17 +70,18 @@ export const certLookup = async (fullname: string) => {
         "DeactivationReason",
         "DaysDeactivated",
         "Course",
+        "Fullname",
+        "Email"
       ],
     },
   });
 
   return query.data.records.map((rec: any) => {
-    rec.Fullname = fullname;
     return rec;
   });
 };
 
-export const certInsert = async (cert: CertificateMetadata) => {
+export const certInsert = async (cert: CertificateMetadata, email: string) => {
   await connect()
     .post("[SCDMS]_Certs", {
       records: [
@@ -90,6 +91,7 @@ export const certInsert = async (cert: CertificateMetadata) => {
             Fullname: cert.fullname,
             Course: cert.course,
             Status: "Active",
+            Email: email,
           },
         },
       ],
