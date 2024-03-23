@@ -3,6 +3,10 @@ export interface Api {
   msg?: string;
 }
 
+export interface ApiEmail extends Api {
+  emailID: string;
+}
+
 export interface ApiDiscordClientId extends Api {
   clientid: string;
 }
@@ -20,4 +24,15 @@ export interface ApiGetCert extends Api {
   certCourse: string;
   certCreated: string;
   certDeactivationReason: string;
+}
+
+export interface ApiGetCertsByName {
+  ID: string;
+  Fullname: string;
+  Status: string;
+  Course: string;
+  DeactivationReason: string;
+  DaysDeactivated: string;
+  Created: string;
+  Email: string;
 }

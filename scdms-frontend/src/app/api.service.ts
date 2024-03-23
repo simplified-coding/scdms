@@ -1,7 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiDiscordFinalize, Api, ApiDiscordClientId, ApiGetCert } from './api';
+import {
+  ApiDiscordFinalize,
+  Api,
+  ApiDiscordClientId,
+  ApiGetCert,
+  ApiGetCertsByName,
+  ApiEmail,
+} from './api';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,44 +19,7 @@ export class ApiService {
     'https://scdms-server.simplifiedcoding.org';
 
   private http: HttpClient = inject(HttpClient);
-  constructor() {}
-
-  /**
-   * Finalizes the discord oauth request
-   * @param state The state
-   * @param code The code provided by discord
-   * @returns The API Response
-   */
-  finalizeDiscordOAuth(
-    state: string,
-    code: string,
-    redirect: string
-  ): Observable<ApiDiscordFinalize> {
-    return this.http.get<ApiDiscordFinalize>(
-      `${this.serverURL}/oauth/discord/finalize?code=${code}&state=${state}&redirect=${redirect}`
-    );
-  }
-
-  /**
-   * Gets the discord client id of the server
-   * @returns The API Response
-   */
-  getDiscordClientId(): Observable<ApiDiscordClientId> {
-    return this.http.get<ApiDiscordClientId>(
-      `${this.serverURL}/oauth/discord/clientid`
-    );
-  }
-
-  /**
-   * Pushes a state to the server
-   * @param state The state to push
-   * @returns The API Response
-   */
-  pushState(state: string): Observable<Api> {
-    return this.http.post<Api>(`${this.serverURL}/oauth/discord/state`, {
-      state: state,
-    });
-  }
+  private authService: AuthService = inject(AuthService);
 
   /**
    * Gets a certificate using it's id from the server
@@ -57,5 +28,59 @@ export class ApiService {
    */
   getCert(id: string): Observable<ApiGetCert> {
     return this.http.get<ApiGetCert>(`${this.serverURL}/certs/${id}`);
+  }
+
+  /**
+   * Gets a list of certificate that match the entered name
+   * @param fullname The users fullname to search
+   * @returns The ceritificates that match the fullname
+   */
+  getCertsByName(fullname: string): Observable<ApiGetCertsByName[]> {
+    return this.http.get<ApiGetCertsByName[]>(
+      `${this.serverURL}/certs/user/${fullname}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()!.jwt}`,
+        },
+      }
+    );
+  }
+
+  /**
+   * Revokes a certificate
+   * @param id The certificate id
+   * @param email The certificate owners email
+   * @param deactivationReason The deactivation reason
+   * @returns An email response
+   */
+  revokeCert(
+    id: string,
+    email: string,
+    deactivationReason: string
+  ): Observable<ApiEmail> {
+    return this.http.delete<ApiEmail>(`${this.serverURL}/certs/${id}`, {
+      body: { email, deactivationReason },
+      headers: {
+        Authorization: `Bearer ${this.authService.getToken()!.jwt}`,
+      },
+    });
+  }
+
+  /**
+   * Reinstates a certificate
+   * @param id The certificate id to reinstate
+   * @param email The certificate owners email
+   * @returns An email response
+   */
+  reinstateCert(id: string, email: string): Observable<ApiEmail> {
+    return this.http.post<ApiEmail>(
+      `${this.serverURL}/certs/${id}`,
+      { email },
+      {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()!.jwt}`,
+        },
+      }
+    );
   }
 }

@@ -5,6 +5,7 @@ import { CertsComponent } from './certs/certs.component';
 import { CertsIdComponent } from './certs/certs-id/certs-id.component';
 import { authGuard } from './auth.guard';
 import { adminGuard } from './admin.guard';
+import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
   {
@@ -31,5 +32,12 @@ export const routes: Routes = [
     title: 'SCDMS - Certificate',
     path: 'certs/:id',
     component: CertsIdComponent,
+  },
+
+  {
+    title: 'SCDMS - Admin',
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [adminGuard],
   },
 ];
