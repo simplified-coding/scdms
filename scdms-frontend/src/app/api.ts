@@ -15,6 +15,9 @@ export interface ApiDiscordFinalize extends Api {
 
 export interface ApiGetCert extends Api {
   certID: string;
+  certFullname: string;
   certStatus: string;
+  certCourse: string;
+  certCreated: string;
   certDeactivationReason: string;
 }

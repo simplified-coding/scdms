@@ -7,7 +7,6 @@
     <mat-card-content>
       @if (this.cert != undefined) {
       <div class="content">
-        <p class="welcome">Προς κάθε ενδιαφερόμενο,</p>
         <p>
           Παρακάτω μπορείτε να δείτε πληροφορίες σχετικά με το πιστοποιητικό.
           Για τυχόν ερωτήσεις επικοινωνήστε μαζί μας μέσω ηλεκτρονικού
@@ -19,6 +18,15 @@
         <ul>
           <li>
             Aναγνωριστικό ID: <code>{{ this.cert.certID }}</code>
+          </li>
+          <li>
+            Όνομα Κατόχου: <code>{{ this.cert.certFullname }}</code>
+          </li>
+          <li>
+            Σειρά Μαθήματος: <code>{{ this.cert.certCourse }}</code>
+          </li>
+          <li>
+            Ημερομηνία Εκδόσης: <code>{{ this.cert.certCreated }}</code>
           </li>
           <li>
             Κατάσταση:

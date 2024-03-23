@@ -32,9 +32,4 @@ export const routes: Routes = [
     path: 'certs/:id',
     component: CertsIdComponent,
   },
-  {
-    title: 'SCDMS - Admin',
-    path: 'admin',
-    canActivate: [adminGuard],
-  },
 ];

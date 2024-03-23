@@ -33,7 +33,9 @@
         "operationId": "get_oauth_discord_request",
         "summary": "Get a discord OAuth redirect",
         "description": "Redirects to discord OAuth authorize URL.",
-        "tags": ["oauth"]
+        "tags": [
+          "oauth"
+        ]
       }
     },
     "/oauth/discord/clientid": {
@@ -41,7 +43,9 @@
         "operationId": "get_oauth_discord_clientid",
         "summary": "Gets the discord OAuth App Client ID",
         "description": "Returns the discord OAuth App Client ID to allow external authentication",
-        "tags": ["oauth"],
+        "tags": [
+          "oauth"
+        ],
         "responses": {
           "200": {
             "description": "OAuth Discord Client ID",
@@ -49,10 +53,18 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "clientid"],
+                  "required": [
+                    "status",
+                    "clientid"
+                  ],
                   "properties": {
-                    "status": { "type": "boolean", "default": true },
-                    "clientid": { "type": "string" }
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "clientid": {
+                      "type": "string"
+                    }
                   }
                 }
               }
@@ -66,15 +78,21 @@
         "operationId": "post_oauth_discord_state",
         "summary": "POSTs to the server a state",
         "description": "Appends to the states object a new state ID to allow external authentication",
-        "tags": ["oauth"],
+        "tags": [
+          "oauth"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["state"],
+                "required": [
+                  "state"
+                ],
                 "properties": {
-                  "state": { "type": "string" }
+                  "state": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -87,9 +105,14 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status"],
+                  "required": [
+                    "status"
+                  ],
                   "properties": {
-                    "status": { "type": "boolean", "default": true }
+                    "status": {
+                      "type": "boolean",
+                      "default": true
+                    }
                   }
                 }
               }
@@ -103,7 +126,9 @@
         "operationId": "get_oauth_discord_finalize",
         "summary": "Finalize a discord OAuth request & get access token",
         "description": "Redirects to discord OAuth authorize URL.",
-        "tags": ["oauth"],
+        "tags": [
+          "oauth"
+        ],
         "responses": {
           "200": {
             "description": "Account authenticated",
@@ -155,7 +180,9 @@
         "operationId": "get_certs",
         "summary": "Route check",
         "description": "Checks if the /certs/ routes work",
-        "tags": ["certs"],
+        "tags": [
+          "certs"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -185,7 +212,9 @@
         "operationId": "post_certs_generate",
         "summary": "Generates a certificate",
         "description": "Generates a certificate and sends it for verification",
-        "tags": ["certs"],
+        "tags": [
+          "certs"
+        ],
         "security": [
           {
             "jwt": []
@@ -289,7 +318,9 @@
         "operationId": "post_certs_generate_notify",
         "summary": "Notifies of a certificate generation",
         "description": "Notifies the receipient of a certificate generation",
-        "tags": ["certs"],
+        "tags": [
+          "certs"
+        ],
         "security": [
           {
             "jwt": []
@@ -369,8 +400,14 @@
         "operationId": "get_certs_user_fullname",
         "summary": "Get's all certificates of a user",
         "description": "Looks up all certificates of a user with the fullname :fullname",
-        "tags": ["certs"],
-        "security": [{ "jwt": [] }],
+        "tags": [
+          "certs"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lookup Results",
@@ -388,11 +425,21 @@
                       "deactivationReason"
                     ],
                     "properties": {
-                      "id": { "type": "string" },
-                      "fullname": { "type": "string" },
-                      "course": { "type": "string" },
-                      "status": { "type": "string" },
-                      "deactivationReason": { "type": "string" }
+                      "id": {
+                        "type": "string"
+                      },
+                      "fullname": {
+                        "type": "string"
+                      },
+                      "course": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "deactivationReason": {
+                        "type": "string"
+                      }
                     }
                   }
                 }
@@ -407,7 +454,9 @@
         "operationId": "get_certs_id",
         "summary": "Gets a certificate status",
         "description": "Looks up the certificate and returns it status",
-        "tags": ["certs"],
+        "tags": [
+          "certs"
+        ],
         "responses": {
           "200": {
             "description": "Found",
@@ -424,6 +473,12 @@
                       "type": "string"
                     },
                     "certStatus": {
+                      "type": "string"
+                    },
+                    "certFullname": {
+                      "type": "string"
+                    },
+                    "certCourse": {
                       "type": "string"
                     },
                     "certDeactivationReason": {
@@ -456,7 +511,9 @@
         "operationId": "delete_certs_id",
         "summary": "Revokes a certificate",
         "description": "Looks up the certificate and revokes it",
-        "tags": ["certs"],
+        "tags": [
+          "certs"
+        ],
         "security": [
           {
             "jwt": []
@@ -467,10 +524,17 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email", "deactivationReason"],
+                "required": [
+                  "email",
+                  "deactivationReason"
+                ],
                 "properties": {
-                  "email": { "type": "string" },
-                  "deactivationReason": { "type": "string" }
+                  "email": {
+                    "type": "string"
+                  },
+                  "deactivationReason": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -527,15 +591,21 @@
             "jwt": []
           }
         ],
-        "tags": ["certs"],
+        "tags": [
+          "certs"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email"],
+                "required": [
+                  "email"
+                ],
                 "properties": {
-                  "email": { "type": "string" }
+                  "email": {
+                    "type": "string"
+                  }
                 }
               }
             }

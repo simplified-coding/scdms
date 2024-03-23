@@ -120,6 +120,9 @@ router.get("/:id", async (req: Request, res: Response) => {
     status: true,
     certID: cert.fields.ID,
     certStatus: cert.fields.Status,
+    certFullname: cert.fields.Fullname,
+    certCourse: cert.fields.Course,
+    certCreated: cert.fields.Created,
     certDeactivationReason: cert.fields.DeactivationReason || "N/A",
   });
 });

@@ -33,6 +33,7 @@ export class CertsIdComponent {
 
     cert$.subscribe((v) => {
       this.cert = v;
+      this.cert.certCreated = new Date(this.cert.certCreated).toLocaleString()
 
       this.lastViewed = `${new Date().toLocaleString()} (${new Date().toUTCString()})`;
     });

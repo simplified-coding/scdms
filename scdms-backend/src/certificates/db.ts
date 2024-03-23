@@ -13,9 +13,7 @@ export const certExists = async (fullname: string, course: string) => {
     params: {
       maxRecords: 1,
       fields: ["ID"],
-      filterByFormula: `AND(Status = 'Active', Fullname = '${hash(
-        fullname,
-      )}', Course = '${course}')`,
+      filterByFormula: `AND(Status = 'Active', Fullname = '${fullname}', Course = '${course}')`,
     },
   });
 
@@ -25,6 +23,7 @@ export const certExists = async (fullname: string, course: string) => {
 export const certFetch = async (id: string) => {
   const query = await connect().get("[SCDMS]_Certs", {
     params: {
+      filterByFormula: `ID = '${id}'`,
       maxRecords: 1,
       fields: [
         "ID",
@@ -32,6 +31,8 @@ export const certFetch = async (id: string) => {
         "Created",
         "DeactivationReason",
         "DaysDeactivated",
+        "Course",
+        "Fullname",
       ],
     },
   });
@@ -86,7 +87,7 @@ export const certInsert = async (cert: CertificateMetadata) => {
         {
           fields: {
             ID: cert.id,
-            Fullname: hash(cert.fullname),
+            Fullname: cert.fullname,
             Course: cert.course,
             Status: "Active",
           },
