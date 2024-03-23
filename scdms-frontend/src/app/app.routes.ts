@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
 import { AuthLoginComponent } from './auth-login/auth-login.component';
 import { HomeComponent } from './home/home.component';
+import { CertsComponent } from './certs/certs.component';
+import { CertsIdComponent } from './certs/certs-id/certs-id.component';
+import { authGuard } from './auth.guard';
+import { adminGuard } from './admin.guard';
 
 export const routes: Routes = [
   {
@@ -17,5 +21,20 @@ export const routes: Routes = [
     title: 'SCDMS - Finalize Login',
     path: 'auth/login/finalize',
     component: AuthLoginComponent,
+  },
+  {
+    title: 'SCDMS - Certificates',
+    path: 'certs',
+    component: CertsComponent,
+  },
+  {
+    title: 'SCDMS - Certificate',
+    path: 'certs/:id',
+    component: CertsIdComponent,
+  },
+  {
+    title: 'SCDMS - Admin',
+    path: 'admin',
+    canActivate: [adminGuard],
   },
 ];

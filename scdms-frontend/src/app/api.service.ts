@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiDiscordFinalize, Api, ApiDiscordClientId } from './api';
+import { ApiDiscordFinalize, Api, ApiDiscordClientId, ApiGetCert } from './api';
 
 @Injectable({
   providedIn: 'root',
@@ -48,5 +48,14 @@ export class ApiService {
     return this.http.post<Api>(`${this.serverURL}/oauth/discord/state`, {
       state: state,
     });
+  }
+
+  /**
+   * Gets a certificate using it's id from the server
+   * @param id The certificate id
+   * @returns The certificate request
+   */
+  getCert(id: string): Observable<ApiGetCert> {
+    return this.http.get<ApiGetCert>(`${this.serverURL}/certs/${id}`);
   }
 }
