@@ -4,8 +4,9 @@ import { PDFDocument, rgb } from "pdf-lib";
 import { v4 as uuidv4 } from "uuid";
 import { P12Signer } from "@signpdf/signer-p12";
 import { plainAddPlaceholder } from "@signpdf/placeholder-plain";
+import { CertificateMetadata } from "./db";
 
-export const generateCertificate = async (fullname, course, id = undefined) => {
+export const generateCertificate = async (cert: CertificateMetadata) => {
   const pdf = await PDFDocument.load(fs.readFileSync(`./src/assets/cert.pdf`));
 
   // Add fonts
@@ -19,19 +20,21 @@ export const generateCertificate = async (fullname, course, id = undefined) => {
 
   // Add text
   const page = pdf.getPages()[0];
-  const pdfID = id ? id : uuidv4();
-  page.drawText(fullname, {
+  const pdfID = cert.id ? cert.id : uuidv4();
+  page.drawText(cert.fullname, {
     color: rgb(31 / 255, 43 / 255, 91 / 255),
     font: fontFullname,
     size: 52,
-    x: page.getWidth() / 2 - fontFullname.widthOfTextAtSize(fullname, 52) / 2,
+    x:
+      page.getWidth() / 2 -
+      fontFullname.widthOfTextAtSize(cert.fullname, 52) / 2,
     y: 265,
   });
-  page.drawText(course, {
+  page.drawText(cert.course, {
     color: rgb(124 / 255, 124 / 255, 124 / 255),
     font: fontDetails,
     size: 14,
-    x: 550 + (10 - course.length) * 4,
+    x: 550 + (10 - cert.course.length) * 4,
     y: 210,
   });
   page.drawText(pdfID, {
@@ -43,14 +46,14 @@ export const generateCertificate = async (fullname, course, id = undefined) => {
   });
 
   // Set Metadata
-  pdf.setTitle(`Certificate - ${course} - ${fullname}`);
+  pdf.setTitle(`Certificate - ${cert.course} - ${cert.fullname}`);
   pdf.setCreator(process.env.CERTS_MANAGER);
   pdf.setAuthor(process.env.CERTS_AUTHOR);
   pdf.setCreationDate(new Date(Date.now()));
 
   pdf.setModificationDate(pdf.getCreationDate());
   pdf.setProducer(pdf.getCreator());
-  pdf.setSubject(pdf.getTitle());
+  pdf.setSubject(`${pdf.getTitle()} - ${cert.fullname}<${cert.email}>`);
 
   // Sign PDF
   let pdfBuffer = Buffer.from(await pdf.save({ useObjectStreams: false })); // Save PDF as buffer
@@ -63,10 +66,10 @@ export const generateCertificate = async (fullname, course, id = undefined) => {
   });
 
   // Sign PDF
-  pdfBuffer = await new P12Signer(
-    fs.readFileSync("./assets/" + process.env.CRYPTO_P12_KEYFILE),
-    { passphrase: process.env.CRYPTO_P12_SECRET },
-  ).sign(pdfBuffer);
+  // pdfBuffer = await new P12Signer(
+  //   fs.readFileSync("./src/assets/" + process.env.CRYPTO_P12_KEYFILE),
+  //   { passphrase: process.env.CRYPTO_P12_SECRET },
+  // ).sign(pdfBuffer);
 
   return {
     cert: pdfBuffer,

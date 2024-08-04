@@ -1,0 +1,17 @@
+.margin {
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+.nav-links {
+  margin-left: 1rem;
+  flex: 1 1 auto;
+}
+
+.link {
+  font-size: large;
+
+  &:hover {
+    font-weight: bold;
+  }
+}

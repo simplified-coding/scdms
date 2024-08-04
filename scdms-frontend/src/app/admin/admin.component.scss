@@ -1,0 +1,61 @@
+.content {
+    $space: 1rem;
+    margin: $space $space $space $space;
+}
+
+.form {
+    $space: 0.5rem;
+    margin: 0rem $space 0rem $space;
+}
+
+.form-name {
+    width: 32rem;
+}
+
+.progress {
+    width: 60%;
+}
+
+.selected {
+    font-weight: bold;
+}
+
+.cert-preview {
+    width: 50rem;
+    border: 1px;
+    border-radius: 1rem;
+}
+
+.cert-editor {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.cert-editor-details {
+    margin-left: 2rem;
+}
+
+.warn {
+    color: red;
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+form {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+code {
+    font-weight: 600;
+    &:hover {
+        text-decoration: underline;
+        font-weight: bold;
+    }
+}
+
+button {
+    $spacing: .5rem;
+    margin: 0rem $spacing 0rem $spacing;
+}

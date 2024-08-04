@@ -1,0 +1,115 @@
+<div>
+    <mat-tab-group (selectedIndexChange)="tabControl.setValue($event)" [selectedIndex]="tabControl.value">
+        <mat-tab label="Certificate Lookup">
+            <div class="content">
+                <form [formGroup]="fCertificateLookup" (ngSubmit)="fCertificateLookupSubmit()">
+                    <mat-form-field appearance="outline" class="form form-name" >
+                        <mat-label>Enter fullname to search</mat-label>
+                        <input matInput formControlName="fullname" placeholder="Fullname">
+                        <mat-icon matSuffix>badge</mat-icon>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" class="form" type="submit">Search</button>
+                    <mat-progress-bar [mode]="fCertificateLookup.value.loading ? 'indeterminate' : 'determinate'" class="progress"></mat-progress-bar>
+                </form>
+                <div>
+                    <table mat-table [dataSource]="lookupResults" class="mat-elevation-z8">
+                        <ng-container matColumnDef="ID">
+                            <th mat-header-cell *matHeaderCellDef> ID </th>
+                            <td mat-cell *matCellDef="let element"> <code>{{element.ID}}</code> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Fullname">
+                            <th mat-header-cell *matHeaderCellDef> Fullname </th>
+                            <td mat-cell *matCellDef="let element"> {{element.Fullname}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="Email">
+                            <th mat-header-cell *matHeaderCellDef> Email </th>
+                            <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="Course">
+                            <th mat-header-cell *matHeaderCellDef> Course </th>
+                            <td mat-cell *matCellDef="let element"> {{element.Course}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Status">
+                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="DeactivationReason">
+                            <th mat-header-cell *matHeaderCellDef> Deactivation Reason </th>
+                            <td mat-cell *matCellDef="let element"> {{element.DeactivationReason}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="DaysDeactivated">
+                            <th mat-header-cell *matHeaderCellDef> Days Deactivated </th>
+                            <td mat-cell *matCellDef="let element"> {{element.DaysDeactivated}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Created">
+                            <th mat-header-cell *matHeaderCellDef> Created </th>
+                            <td mat-cell *matCellDef="let element"> {{element.Created}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Actions">
+                            <th mat-header-cell *matHeaderCellDef> Actions </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-flat-button color="primary" (click)="certificateLookupSelect(element)" [disabled]="selectedCertificate?.ID == element.ID"> Select </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="lookupColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: lookupColumns;" [ngClass]="{selected: selectedCertificate?.ID == row.ID}"></tr>
+                      </table>                      
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Certificate Editor">
+            <div class="content cert-editor">
+                <img src="../../assets/cert.png" class="cert-preview">
+                @if (selectedCertificate) {
+                    <div class="cert-editor-details">
+                        <h1>Editing Certificate <code>{{selectedCertificate.ID}}</code></h1>
+                        <ul>
+                          <li>
+                            Owner: <code>{{ selectedCertificate.Fullname }}</code>
+                          </li>
+                          <li>
+                            Course: <code>{{ selectedCertificate.Course }}</code>
+                          </li>
+                          <li>
+                            Created: <code>{{ selectedCertificate.Created }}</code>
+                          </li>
+                          <li>
+                            Status:
+                            <code
+                              >{{ selectedCertificate.Status }}</code
+                            >
+                          </li>
+                          <li>Deactivation: <code>{{ selectedCertificate.DeactivationReason }} ({{selectedCertificate.DaysDeactivated}})</code></li>
+                        </ul>
+                        <br>
+                        <mat-divider></mat-divider>
+                        <br>
+                        <form [formGroup]="fCertificateEditor">
+                            <mat-form-field appearance="outline" class="form form-name" >
+                                <mat-label>Deactivation Reason</mat-label>
+                                <input matInput formControlName="deactivationReason" placeholder="N/A" [defaultValue]="selectedCertificate.DeactivationReason">
+                            </mat-form-field> 
+                            <button mat-flat-button color="warn" (click)="certificateEditorRevoke()">Revoke</button>
+                            <button mat-flat-button color="accent" (click)="certificateEditorReinstate()">Reinstate</button>
+                        </form>
+                        <mat-progress-bar [mode]="fCertificateEditor.value.loading ? 'indeterminate' : 'determinate'"></mat-progress-bar>
+                    </div>
+                } @else {
+                    <div class="cert-editor-details warn">
+                        <h1>No Certificate Selected</h1>
+                    </div>
+                }
+            </div>
+        </mat-tab>
+        <mat-tab label="Certificate Generator"></mat-tab>
+    </mat-tab-group>
+</div>

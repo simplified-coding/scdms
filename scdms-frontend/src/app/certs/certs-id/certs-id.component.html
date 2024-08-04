@@ -1,0 +1,75 @@
+<div class="container">
+  <mat-card class="card container">
+    <mat-card-title
+      >Πιστοποιητικο <code>{{ this.cert?.certID }}</code></mat-card-title
+    >
+
+    <mat-card-content>
+      @if (this.cert != undefined) {
+      <div class="content">
+        <p>
+          Παρακάτω μπορείτε να δείτε πληροφορίες σχετικά με το πιστοποιητικό.
+          Για τυχόν ερωτήσεις επικοινωνήστε μαζί μας μέσω ηλεκτρονικού
+          ταχυδρομείου στο:
+          <a href="mailto:main@simplifiedcoding.org"
+            >main&#64;simplifiedcoding.org</a
+          >
+        </p>
+        <ul>
+          <li>
+            Aναγνωριστικό ID: <code>{{ this.cert.certID }}</code>
+          </li>
+          <li>
+            Όνομα Κατόχου: <code>{{ this.cert.certFullname }}</code>
+          </li>
+          <li>
+            Σειρά Μαθήματος: <code>{{ this.cert.certCourse }}</code>
+          </li>
+          <li>
+            Ημερομηνία Εκδόσης: <code>{{ this.cert.certCreated }}</code>
+          </li>
+          <li>
+            Κατάσταση:
+            <code
+              [ngClass]="{
+                'cert-active': this.cert.certStatus == 'Active',
+                cert: true
+              }"
+              >{{ this.cert.certStatus }}</code
+            >
+          </li>
+          @if(this.cert.certStatus != "Active") {
+          <li>Αιτία: {{ this.cert.certDeactivationReason }}</li>
+          }
+        </ul>
+      </div>
+      } @else {
+      <div class="loading">
+        <mat-spinner></mat-spinner>
+      </div>
+      }
+    </mat-card-content>
+
+    <mat-card-actions class="actions">
+      @if (this.cert != undefined) {
+      <button
+        mat-flat-button
+        class="action"
+        color="primary"
+        routerLink="/certs"
+      >
+        Εύρεση Νέου
+      </button>
+      <button mat-flat-button class="action" (click)="share()">
+        Αντίγραφή Συνδέσμου
+      </button>
+      }
+    </mat-card-actions>
+
+    <mat-card-footer>
+      @if (this.cert != undefined) {
+      <span>Προβλήθηκε: {{ this.lastViewed }}</span> } @else {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>}
+    </mat-card-footer>
+  </mat-card>
+</div>

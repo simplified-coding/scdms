@@ -1,0 +1,27 @@
+<div>
+  <h1>
+    Καλώς ήρθατε στο
+    <strong>Συστημά Πιστοποιητικών του Simplified Coding</strong>!
+  </h1>
+  <mat-divider></mat-divider>
+  <div class="form">
+    <h2>Εύρεση Πιστοποιητικού</h2>
+    <form class="spacing" [formGroup]="fSearchGroup" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="form-size">
+        <mat-label>ID</mat-label>
+        <input
+          matInput
+          required
+          id="id"
+          placeholder="ID"
+          formControlName="id"
+        />
+        <mat-icon matSuffix>badge</mat-icon>
+        <mat-hint>Το αναγνωριστικό ID σας έχει δοθεί στο email σας </mat-hint>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="spacing-x" type="submit">
+        Εύρεση
+      </button>
+    </form>
+  </div>
+</div>

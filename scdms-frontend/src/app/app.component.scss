@@ -1,0 +1,16 @@
+.content {
+  margin: 2rem 2rem;
+  flex: 1 1 auto;
+  height: 85%;
+}
+
+.navbar {
+  flex: 0 1 auto;
+  min-height: 20%;
+}
+
+main {
+  display: flexbox;
+  flex-direction: column;
+  height: 100%;
+}
