@@ -1,0 +1,31 @@
+# fly.toml app configuration file generated for scdms-pocketbase on 2024-08-04T17:30:42+03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'scdms-pocketbase'
+primary_region = 'ams'
+
+[mounts]
+  source = "pb_data"
+  destination = "/pb/pb_data"
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ['app']
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 500
+    hard_limit = 550
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
