@@ -1,5 +1,5 @@
-import connect, { decryptRow } from "./airtable";
-import encrypt from "./crypto/encrypt";
+import connect, { decryptRow } from "./airtable.js";
+import encrypt from "./crypto/encrypt.js";
 import jwt from "jsonwebtoken";
 
 export type User = {
