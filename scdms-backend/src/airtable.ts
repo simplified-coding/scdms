@@ -1,5 +1,5 @@
 import axios from "axios";
-import decrypt from "./crypto/decrypt";
+import decrypt from "./crypto/decrypt.js";
 
 export type AirtableData = {
   DATA: any;

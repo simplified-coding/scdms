@@ -4,7 +4,7 @@ import { PDFDocument, rgb } from "pdf-lib";
 import { v4 as uuidv4 } from "uuid";
 import { P12Signer } from "@signpdf/signer-p12";
 import { plainAddPlaceholder } from "@signpdf/placeholder-plain";
-import { CertificateMetadata } from "./db";
+import { CertificateMetadata } from "./db.js";
 
 export const generateCertificate = async (cert: CertificateMetadata) => {
   const pdf = await PDFDocument.load(fs.readFileSync(`./src/assets/cert.pdf`));

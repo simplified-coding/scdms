@@ -1,5 +1,5 @@
-import connect from "../airtable";
-import { hash } from "../crypto/crypto";
+import connect from "../airtable.js";
+import { hash } from "../crypto/crypto.js";
 
 export type CertificateMetadata = {
   id: string;

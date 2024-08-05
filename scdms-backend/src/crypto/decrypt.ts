@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import crypto from "crypto";
-import AES_Crypto, { hash } from "./crypto";
+import AES_Crypto, { hash } from "./crypto.js";
 
 export default async (data: AES_Crypto): Promise<string | void> => {
   const key = await fs.readFile(

@@ -131,3 +131,5 @@ dist
 
 *.p12
 *.pdf
+
+.DS_Store

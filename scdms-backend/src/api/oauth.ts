@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import cache from "node-cache";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import { getUser, insertUser, signUserJWT } from "../users";
+import { getUser, insertUser, signUserJWT } from "../users.js";
 import cors from "cors";
 
 const router = express.Router();
@@ -33,8 +33,7 @@ router.get("/discord/request", (req: Request, res: Response) => {
   states.set(state, "");
 
   res.redirect(
-    `https://discord.com/oauth2/authorize?response_type=code&client_id=${
-      process.env.OAUTH_DISCORD_ID
+    `https://discord.com/oauth2/authorize?response_type=code&client_id=${process.env.OAUTH_DISCORD_ID
     }&scope=identify%20guilds&state=${state}&redirect_uri=${encodeURIComponent(
       redirect,
     )}&prompt=consent`,

@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 import passport from "passport";
-import { User } from "../users";
+import { User } from "../users.js";
 import { v4 } from "uuid";
-import { generateCertificate } from "../certificates/generate";
+import { generateCertificate } from "../certificates/generate.js";
 import {
   CertificateMetadata,
   certExists,
@@ -10,9 +10,9 @@ import {
   certInsert,
   certLookup,
   certStatus,
-} from "../certificates/db";
-import { sendNotification } from "../notify";
-import { sendEmail } from "../email";
+} from "../certificates/db.js";
+import { sendNotification } from "../notify.js";
+import { sendEmail } from "../email.js";
 
 const router = express.Router();
 

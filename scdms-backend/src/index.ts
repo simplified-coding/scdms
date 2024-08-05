@@ -6,11 +6,11 @@ import "dotenv/config";
 import passport from "passport";
 import passportJWT from "passport-jwt";
 
-import rCertificates from "./api/certificates";
-import rOauth from "./api/oauth";
+import rCertificates from "./api/certificates.js";
+import rOauth from "./api/oauth.js";
 import swaggerDocument from "./assets/OpenAPI.json";
 import pkg from "../package.json";
-import { sendNotification } from "./notify";
+import { sendNotification } from "./notify.js";
 
 const app = express();
 app.use(bodyParser.json());
