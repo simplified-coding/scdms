@@ -2,9 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  ApiDiscordFinalize,
-  Api,
-  ApiDiscordClientId,
   ApiGetCert,
   ApiGetCertsByName,
   ApiEmail,
@@ -16,7 +13,8 @@ import { AuthService } from './auth.service';
 })
 export class ApiService {
   protected readonly serverURL: string =
-    'https://scdms-server.simplifiedcoding.org';
+    // 'https://scdms-server.simplifiedcoding.org';
+    'http://localhost:3000'
 
   private http: HttpClient = inject(HttpClient);
   private authService: AuthService = inject(AuthService);

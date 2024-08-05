@@ -7,7 +7,9 @@ import cors from "cors";
 
 const router = express.Router();
 const redirect =
-  "http://scdms-server.simplifiedcoding.org/oauth/discord/finalize";
+  // "http://scdms-server.simplifiedcoding.org/oauth/discord/finalize";
+  "http://localhost:3000/oauth/discord/finalize";
+
 const states = new cache({ stdTTL: 60 * 12, checkperiod: 90 });
 
 router.use(cors());

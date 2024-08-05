@@ -15,53 +15,48 @@
                     <table mat-table [dataSource]="lookupResults" class="mat-elevation-z8">
                         <ng-container matColumnDef="ID">
                             <th mat-header-cell *matHeaderCellDef> ID </th>
-                            <td mat-cell *matCellDef="let element"> <code>{{element.ID}}</code> </td>
+                            <td mat-cell *matCellDef="let element"> <code>{{element.id}}</code> </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Fullname">
                             <th mat-header-cell *matHeaderCellDef> Fullname </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Fullname}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.fullname}} </td>
                         </ng-container>
                         
                         <ng-container matColumnDef="Email">
                             <th mat-header-cell *matHeaderCellDef> Email </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Email}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
                         </ng-container>
                         
                         <ng-container matColumnDef="Course">
                             <th mat-header-cell *matHeaderCellDef> Course </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Course}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.course}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Status">
                             <th mat-header-cell *matHeaderCellDef> Status </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
                         </ng-container>
                         
-                        <ng-container matColumnDef="DeactivationReason">
+                        <ng-container matColumnDef="Deactivated">
                             <th mat-header-cell *matHeaderCellDef> Deactivation Reason </th>
-                            <td mat-cell *matCellDef="let element"> {{element.DeactivationReason}} </td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="DaysDeactivated">
-                            <th mat-header-cell *matHeaderCellDef> Days Deactivated </th>
-                            <td mat-cell *matCellDef="let element"> {{element.DaysDeactivated}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.deactivated}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Created">
                             <th mat-header-cell *matHeaderCellDef> Created </th>
-                            <td mat-cell *matCellDef="let element"> {{element.Created}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.created}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Actions">
                             <th mat-header-cell *matHeaderCellDef> Actions </th>
                             <td mat-cell *matCellDef="let element">
-                                <button mat-flat-button color="primary" (click)="certificateLookupSelect(element)" [disabled]="selectedCertificate?.ID == element.ID"> Select </button>
+                                <button mat-flat-button color="primary" (click)="certificateLookupSelect(element)" [disabled]="selectedCertificate?.id == element.id"> Select </button>
                             </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="lookupColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: lookupColumns;" [ngClass]="{selected: selectedCertificate?.ID == row.ID}"></tr>
+                        <tr mat-row *matRowDef="let row; columns: lookupColumns;" [ngClass]="{selected: selectedCertificate?.id == row.id}"></tr>
                       </table>                      
                 </div>
             </div>
@@ -71,24 +66,24 @@
                 <img src="../../assets/cert.png" class="cert-preview">
                 @if (selectedCertificate) {
                     <div class="cert-editor-details">
-                        <h1>Editing Certificate <code>{{selectedCertificate.ID}}</code></h1>
+                        <h1>Editing Certificate <code>{{selectedCertificate.id}}</code></h1>
                         <ul>
                           <li>
-                            Owner: <code>{{ selectedCertificate.Fullname }}</code>
+                            Owner: <code>{{ selectedCertificate.fullname }}</code>
                           </li>
                           <li>
-                            Course: <code>{{ selectedCertificate.Course }}</code>
+                            Course: <code>{{ selectedCertificate.course }}</code>
                           </li>
                           <li>
-                            Created: <code>{{ selectedCertificate.Created }}</code>
+                            Created: <code>{{ selectedCertificate.created }}</code>
                           </li>
                           <li>
                             Status:
                             <code
-                              >{{ selectedCertificate.Status }}</code
+                              >{{ selectedCertificate.status }}</code
                             >
                           </li>
-                          <li>Deactivation: <code>{{ selectedCertificate.DeactivationReason }} ({{selectedCertificate.DaysDeactivated}})</code></li>
+                          <li>Deactivation: <code>{{ selectedCertificate.deactivated }}</code></li>
                         </ul>
                         <br>
                         <mat-divider></mat-divider>
@@ -96,7 +91,7 @@
                         <form [formGroup]="fCertificateEditor">
                             <mat-form-field appearance="outline" class="form form-name" >
                                 <mat-label>Deactivation Reason</mat-label>
-                                <input matInput formControlName="deactivationReason" placeholder="N/A" [defaultValue]="selectedCertificate.DeactivationReason">
+                                <input matInput formControlName="deactivationReason" placeholder="N/A" [defaultValue]="selectedCertificate.deactivated">
                             </mat-form-field> 
                             <button mat-flat-button color="warn" (click)="certificateEditorRevoke()">Revoke</button>
                             <button mat-flat-button color="accent" (click)="certificateEditorReinstate()">Reinstate</button>

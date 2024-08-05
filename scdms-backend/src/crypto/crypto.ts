@@ -1,10 +1,10 @@
 import crypto from "crypto";
 
 type AES_Crypto = {
-  IV: string;
-  TAG: string;
-  DATA: string;
-  HASH: string;
+  iv: string;
+  auth: string;
+  data: string;
+  hash: string;
 };
 
 export const hash = (data: string): string => {

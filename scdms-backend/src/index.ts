@@ -11,6 +11,7 @@ import rOauth from "./api/oauth.js";
 import swaggerDocument from "./assets/OpenAPI.json";
 import pkg from "../package.json";
 import { sendNotification } from "./notify.js";
+import { decryptDocument } from "./pocketbase.js";
 
 const app = express();
 app.use(bodyParser.json());

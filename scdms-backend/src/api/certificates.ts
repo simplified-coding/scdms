@@ -4,7 +4,6 @@ import { User } from "../users.js";
 import { v4 } from "uuid";
 import { generateCertificate } from "../certificates/generate.js";
 import {
-  CertificateMetadata,
   certExists,
   certFetch,
   certInsert,
@@ -13,6 +12,7 @@ import {
 } from "../certificates/db.js";
 import { sendNotification } from "../notify.js";
 import { sendEmail } from "../email.js";
+import { CertDocument } from "../documents.js";
 
 const router = express.Router();
 
@@ -46,12 +46,11 @@ router.post(
       });
     }
 
-    const meta: CertificateMetadata = {
-      ...req.body,
-      id: v4(),
-    };
+    const meta: CertDocument = req.body;
+    let certRecord = await certInsert(meta, email) as CertDocument;
+    meta.id = certRecord.id;
+
     const cert = await generateCertificate(meta);
-    await certInsert(meta, email);
 
     await sendNotification(
       `Certificate Generation`,
@@ -118,12 +117,12 @@ router.get("/:id", async (req: Request, res: Response) => {
 
   res.status(200).json({
     status: true,
-    certID: cert.fields.ID,
-    certStatus: cert.fields.Status,
-    certFullname: cert.fields.Fullname,
-    certCourse: cert.fields.Course,
-    certCreated: cert.fields.Created,
-    certDeactivationReason: cert.fields.DeactivationReason || "N/A",
+    certID: cert.id,
+    certStatus: cert.status,
+    certFullname: cert.fullname,
+    certCourse: cert.course,
+    certCreated: cert.created,
+    certDeactivationReason: cert.deactivated || "N/A",
   });
 });
 
@@ -206,7 +205,7 @@ router.get(
       return res.status(403).json({ status: false, msg: "Unauthorized" });
 
     const certs = await certLookup(req.params.fullname);
-    res.status(200).json(certs.map((cert: any) => cert.fields));
+    res.status(200).json(certs.map((cert: any) => cert));
   },
 );
 

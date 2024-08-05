@@ -9,14 +9,14 @@ export default async (data: AES_Crypto): Promise<string | void> => {
   const decipher = crypto.createDecipheriv(
     "aes-256-gcm",
     Buffer.from(key.toString(), "hex"),
-    Buffer.from(data.IV, "base64"),
+    Buffer.from(data.iv, "base64"),
   );
-  decipher.setAuthTag(Buffer.from(data.TAG, "base64"));
+  decipher.setAuthTag(Buffer.from(data.auth, "base64"));
 
-  let decrypted = decipher.update(data.DATA, "base64", "utf-8");
+  let decrypted = decipher.update(data.data, "base64", "utf-8");
   decrypted += decipher.final("utf-8");
 
-  if (hash(decrypted) !== data.HASH) return;
+  if (hash(decrypted) !== data.hash) return;
 
   return decrypted;
 };

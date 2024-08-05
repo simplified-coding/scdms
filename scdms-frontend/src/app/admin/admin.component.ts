@@ -60,7 +60,7 @@ export class AdminComponent {
       .subscribe((response) => {
         this.fCertificateLookup.controls['loading'].setValue(false);
         this.lookupResults = response.map((certificate) => {
-          certificate.Created = new Date(certificate.Created).toLocaleString();
+          certificate.created = new Date(certificate.created).toLocaleString();
           return certificate;
         });
       });
@@ -72,7 +72,7 @@ export class AdminComponent {
       this.certificateEditorRevoke(
         window.confirm(
           `Are you sure you want to revoke certificate with ID: ${
-            this.selectedCertificate!.ID
+            this.selectedCertificate!.id
           }`
         )
       );
@@ -80,15 +80,15 @@ export class AdminComponent {
     this.fCertificateEditor.controls['loading'].setValue(true);
     this.apiService
       .revokeCert(
-        this.selectedCertificate!.ID,
-        this.selectedCertificate!.Email,
-        this.fCertificateEditor.value.deactivationReason
+        this.selectedCertificate!.id,
+        this.selectedCertificate!.email,
+        this.fCertificateEditor.value.deactivated
       )
       .subscribe((response) => {
         this.fCertificateEditor.controls['loading'].setValue(false);
         this.matSnackBar.open(
           `Successfully revoked the certificate with ID: ${
-            this.selectedCertificate!.ID
+            this.selectedCertificate!.id
           }. Email ID: ${response.emailID}`,
           'Dismiss'
         );
@@ -102,7 +102,7 @@ export class AdminComponent {
       this.certificateEditorReinstate(
         window.confirm(
           `Are you sure you want to reinstate certificate with ID: ${
-            this.selectedCertificate!.ID
+            this.selectedCertificate!.id
           }`
         )
       );
@@ -113,14 +113,14 @@ export class AdminComponent {
     });
     this.apiService
       .reinstateCert(
-        this.selectedCertificate!.ID,
-        this.selectedCertificate!.Email
+        this.selectedCertificate!.id,
+        this.selectedCertificate!.email
       )
       .subscribe((response) => {
         this.fCertificateEditor.controls['loading'].setValue(false);
         this.matSnackBar.open(
           `Successfully reinstated the certificate with ID: ${
-            this.selectedCertificate!.ID
+            this.selectedCertificate!.id
           }. Email ID: ${response.emailID}`,
           'Dismiss'
         );
@@ -130,7 +130,7 @@ export class AdminComponent {
   protected certificateLookupSelect(certificate: ApiGetCertsByName) {
     this.selectedCertificate = certificate;
     this.matSnackBar.open(
-      `Successfully selected certificate: ${certificate.ID}!`,
+      `Successfully selected certificate: ${certificate.id}!`,
       'Dismiss'
     );
 
@@ -143,8 +143,7 @@ export class AdminComponent {
     'Email',
     'Course',
     'Status',
-    'DeactivationReason',
-    'DaysDeactivated',
+    'Deactivated',
     'Created',
     'Actions',
   ];

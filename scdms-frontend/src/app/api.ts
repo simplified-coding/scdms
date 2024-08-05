@@ -27,12 +27,11 @@ export interface ApiGetCert extends Api {
 }
 
 export interface ApiGetCertsByName {
-  ID: string;
-  Fullname: string;
-  Status: string;
-  Course: string;
-  DeactivationReason: string;
-  DaysDeactivated: string;
-  Created: string;
-  Email: string;
+  id: string;
+  fullname: string;
+  status: string;
+  course: string;
+  deactivated: string;
+  created: string;
+  email: string;
 }
