@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "scdms-backend"
+		},
+		{
+			"path": "scdms-frontend"
+		}
+	],
+	"settings": {}
+}
