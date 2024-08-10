@@ -1,4 +1,3 @@
-import { hash } from "../crypto/crypto.js";
 import { CertDocument } from "../documents.js";
 import pb from "../pocketbase.js";
 
