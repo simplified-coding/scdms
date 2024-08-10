@@ -1,10 +1,14 @@
 import express, { Request, Response } from "express"
 import passport from "passport";
 import { fetchLessonHTML } from "../lessons/crawl.js";
-import { lessonExists, lessonInsert } from "../lessons/db.js";
+import { lessonExists, lessonFetchByCourse, lessonInsert } from "../lessons/db.js";
 import { courseFetchIDBySlug } from "../courses/db.js";
 
 const router = express.Router();
+
+router.get("/:course", async (req: Request, res: Response) => {
+    res.status(200).json(await lessonFetchByCourse(req.params.course))
+})
 
 router.post("/migrate", passport.authenticate("jwt", { session: false }),
     async (req: Request, res: Response) => {
