@@ -8,10 +8,12 @@ import passportJWT from "passport-jwt";
 
 import rCertificates from "./api/certificates.js";
 import rOauth from "./api/oauth.js";
+import rCourses from "./api/course.js";
+import rLessons from "./api/lessons.js";
+
 import swaggerDocument from "./assets/OpenAPI.json";
 import pkg from "../package.json";
 import { sendNotification } from "./notify.js";
-import { decryptDocument } from "./pocketbase.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -37,7 +39,9 @@ passport.use(
 
 // Routes
 app.use("/certs", rCertificates);
+app.use("/course", rCourses);
 app.use("/oauth", rOauth);
+app.use("/lessons", rLessons)
 
 app.get("/", (_, res) => {
   res.send("Hello, world!");

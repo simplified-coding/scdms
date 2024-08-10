@@ -19,3 +19,21 @@ export interface CertDocument extends RecordModel {
     email: string,
     id: string
 }
+
+export interface CourseDocument extends RecordModel {
+    slug: string,
+    language: string,
+    level: string,
+    title: string,
+    description: string,
+    icon: string,
+    viewOnly: boolean
+}
+
+export interface LessonDocument extends RecordModel {
+    slug: string,
+    title: string,
+    description?: string,
+    course: string,
+    data: string
+}
