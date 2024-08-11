@@ -12,7 +12,7 @@ export const lessonExists = async (course: string, slug: string): Promise<boolea
 export const lessonFetchByCourse = async (course: string, page: number = 1): Promise<any> => {
     const courseID: string = await courseFetchIDBySlug(course);
     return pb.collection("sc_lessons")
-        .getList(page, 30, { filter: `course='${courseID}'` })
+        .getList(page, 30, { filter: `course='${courseID}'`, sort: "+index" })
         .then((data) => data.items).catch(() => null)
 }
 

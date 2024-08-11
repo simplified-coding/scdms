@@ -31,7 +31,7 @@ export interface CourseDocument extends RecordModel {
 }
 
 export interface LessonDocument extends RecordModel {
-    slug: string,
+    index: number,
     title: string,
     description?: string,
     course: string,
