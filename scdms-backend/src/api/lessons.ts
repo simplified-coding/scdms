@@ -13,6 +13,7 @@ router.get("/:course", async (req: Request, res: Response) => {
 
 router.post("/migrate", passport.authenticate("jwt", { session: false }),
     async (req: Request, res: Response) => {
+        if (!req.user.ADMIN) return res.status(403);
         const { data } = req.body;
 
         if (!data || typeof data != "object")

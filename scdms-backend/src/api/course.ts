@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.post("/migrate", passport.authenticate("jwt", { session: false }),
     async (req: Request, res: Response) => {
+        if (!req.user.ADMIN) return res.status(403);
         const { courses } = req.body;
 
         if (!courses || typeof courses !== "object")
