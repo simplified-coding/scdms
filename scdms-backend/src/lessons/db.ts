@@ -3,8 +3,9 @@ import { LessonDocument } from "../documents.js";
 import pb from "../pocketbase.js";
 
 export const lessonExists = async (course: string, slug: string): Promise<boolean> => {
+    const index: number = Number(slug.replace("lesson_", ""))
     return pb.collection("sc_lessons")
-        .getFirstListItem<LessonDocument>(`(slug='${slug}) && (course='${course}')'`, { requestKey: null })
+        .getFirstListItem<LessonDocument>(`(index='${index}) && (course='${course}')'`, { requestKey: null })
         .then(() => true).catch(() => false)
 };
 

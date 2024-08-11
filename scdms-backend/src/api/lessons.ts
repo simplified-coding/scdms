@@ -3,6 +3,7 @@ import passport from "passport";
 import { fetchLessonHTML } from "../lessons/crawl.js";
 import { lessonExists, lessonFetchByCourse, lessonInsert } from "../lessons/db.js";
 import { courseFetchIDBySlug } from "../courses/db.js";
+import pb from "../pocketbase.js";
 
 const router = express.Router();
 
