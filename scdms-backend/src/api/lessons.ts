@@ -1,14 +1,33 @@
 import express, { Request, Response } from "express"
 import passport from "passport";
+import fs from "fs"
+import { convert } from "html-to-text"
 import { fetchLessonHTML } from "../lessons/crawl.js";
-import { lessonExists, lessonFetchByCourse, lessonInsert } from "../lessons/db.js";
+import { lessonExists, lessonFetch, lessonFetchByCourse, lessonInsert } from "../lessons/db.js";
 import { courseFetchIDBySlug } from "../courses/db.js";
 import pb from "../pocketbase.js";
 
 const router = express.Router();
 
+const prismJS = fs.readFileSync(`./src/assets/prism.js`)
+const prismCSS = fs.readFileSync(`./src/assets/prism.css`)
+const tinyMCECSS = fs.readFileSync(`./src/assets/tinymce.css`)
+
 router.get("/:course", async (req: Request, res: Response) => {
     res.status(200).json(await lessonFetchByCourse(req.params.course))
+})
+
+router.get("/:course/:lesson", async (req: Request, res: Response) => {
+    const { course, lesson } = req.params;
+    const dbLesson = await lessonFetch(course, Number(lesson) || 1);
+
+    if (!dbLesson) return res.status(404).send(`<h1>No Lesson Found for ${course}/${lesson}</h1>`)
+
+    if (req.query.raw == "true") return res.header("Content-Type", "text/plain; charset=utf-8").status(200).end(convert(dbLesson.data))
+
+    dbLesson.data = dbLesson.data.replaceAll("language-markdown", "language-treeview")
+    res.setHeader("Content-Type", "text/html")
+    res.end(`<html><body class="match-braces rainbow-braces diff-highlight">${dbLesson.data}</body><style>${prismCSS}</style><style>${tinyMCECSS}</style><script defer>${prismJS}</script></html>`)
 })
 
 router.post("/migrate", passport.authenticate("jwt", { session: false }),
