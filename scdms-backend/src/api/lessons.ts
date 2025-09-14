@@ -2,6 +2,7 @@ import express, { Request, Response } from "express"
 import passport from "passport";
 import fs from "fs"
 import { convert } from "html-to-text"
+import escape from "escape-html";
 import { fetchLessonHTML } from "../lessons/crawl.js";
 import { lessonExists, lessonFetch, lessonFetchByCourse, lessonInsert } from "../lessons/db.js";
 import { courseFetchIDBySlug } from "../courses/db.js";
@@ -21,7 +22,7 @@ router.get("/:course/:lesson", async (req: Request, res: Response) => {
     const { course, lesson } = req.params;
     const dbLesson = await lessonFetch(course, Number(lesson) || 1);
 
-    if (!dbLesson) return res.status(404).send(`<h1>No Lesson Found for ${course}/${lesson}</h1>`)
+    if (!dbLesson) return res.status(404).send(`<h1>No Lesson Found for ${escape(course)}/${escape(lesson)}</h1>`)
 
     if (req.query.raw == "true") return res.header("Content-Type", "text/plain; charset=utf-8").status(200).end(convert(dbLesson.data))
 
