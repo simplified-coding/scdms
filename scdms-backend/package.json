@@ -35,7 +35,8 @@
     "showdown": "^2.1.0",
     "swagger-ui-express": "^5.0.0",
     "typescript": "^5.3.3",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "escape-html": "^1.0.3"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.0",
